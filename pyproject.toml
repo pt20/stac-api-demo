@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "stac-api"
+version = "0.1.0"
+description = "Central stac api instance"
+authors = []
+
+[tool.poetry.dependencies]
+python = "^3.11"
+"stac-fastapi.api" = "^5.2.0"
+"stac-fastapi.extensions" = "^5.2.0"
+"stac-fastapi.pgstac" = "^5.0.1"
+"stac-fastapi.types" = "^5.2.0"
+asyncio = "^3.4.3"
+pygeoif = "^1.5.0"
+starlette = "^0.46.1"
+uvicorn = "^0.34.1"
+py-de-logging = { path = "/Users/prayag/playground/dump/py-de-logging" }
+
+[tool.poetry.group.dev.dependencies]
+pystac-client = "^0.8.5"
+pypgstac = { extras = ["psycopg"], version = "0.9.5" }
+black = "^24.10.0"
+pytest = "^8.3.4"
+mypy = "^1.14.1"
+pytest-cov = "^6.1.0"
+httpx = "^0.28.1"
+ruff = "^0.11.11"
+
+[tool.black]
+line-length = 120
+target-version = ["py311"]
+
+[tool.mypy]
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+warn_return_any = true
+warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+module = "stac_fastapi.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "requests.*"
+ignore_missing_imports = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,26 @@
+#docker run --rm --name stac-api-db -p 5432:5432
+version: '2'
+services:
+  postgis:
+    image: postgis/postgis:14-3.2
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: stac
+
+  migrations:
+    image: python:3.11-slim
+    environment:
+      PGHOST: postgis
+      PGPORT: 5432
+      PGUSER: root
+      PGDATABASE: stac
+      PGPASSWORD: test
+    entrypoint:
+      - "/opt/migrations/migrate.sh"
+    volumes:
+      - "./migrations:/opt/migrations"
+    depends_on:
+      - postgis
