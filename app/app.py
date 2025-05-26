@@ -3,8 +3,7 @@ import logging.config
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
-from py_de_logging.config import log_config
-from py_de_logging.middleware import AccessLogMiddleware
+from app.logging import configure_logging, AccessLogMiddleware
 from stac_fastapi.api.app import StacApi
 from stac_fastapi.api.models import create_get_request_model, create_post_request_model
 from stac_fastapi.extensions.core import (
@@ -80,7 +79,7 @@ def create_app(api: StacApi) -> FastAPI:
     async def shutdown_event() -> None:
         await close_db_connection(app)
 
-    logging.config.dictConfig(log_config(config.ENV))
+    logging.config.dictConfig(configure_logging(config.ENV))
 
     # order of middleware matters - keep CustomExceptionMiddleware on top - bitte
     app.add_middleware(CustomExceptionMiddleware)
